@@ -7,7 +7,7 @@
     <style>
         body {
             margin: 0;
-            padding: 40px;
+            padding: 20px;
             background: transparent;
             font-family: 'Arial', sans-serif;
             display: flex;
@@ -15,28 +15,24 @@
             align-items: center;
             min-height: 100vh;
             color: #333;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .time-container {
             text-align: center;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
+            background: transparent;
+            padding: 20px;
             border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 100%;
+            max-width: 600px;
+            box-sizing: border-box;
         }
 
         /* Dark mode support */
         @media (prefers-color-scheme: dark) {
             body {
                 color: #e0e0e0;
-            }
-            
-            .time-container {
-                background: rgba(30, 30, 30, 0.95);
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-                border: 1px solid rgba(255, 255, 255, 0.1);
             }
             
             .title {
@@ -53,27 +49,30 @@
         }
 
         .title {
-            font-size: 2.5rem;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
             font-weight: bold;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             color: #2c3e50;
         }
 
         .time-display {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-bottom: 25px;
+            align-items: center;
+            gap: clamp(8px, 2vw, 15px);
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
         .time-unit {
             background: #2c3e50;
-            border-radius: 15px;
-            padding: 20px;
-            min-width: 100px;
+            border-radius: clamp(8px, 2vw, 15px);
+            padding: clamp(10px, 3vw, 20px);
+            min-width: clamp(60px, 12vw, 100px);
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
             position: relative;
             overflow: hidden;
+            flex-shrink: 0;
         }
 
         .time-unit::before {
@@ -88,7 +87,7 @@
         }
 
         .time-number {
-            font-size: 4rem;
+            font-size: clamp(2rem, 6vw, 4rem);
             font-weight: bold;
             color: white;
             line-height: 1;
@@ -96,7 +95,7 @@
         }
 
         .colon {
-            font-size: 4rem;
+            font-size: clamp(2rem, 6vw, 4rem);
             font-weight: bold;
             color: #2c3e50;
             line-height: 1;
@@ -105,39 +104,28 @@
         }
 
         .date-display {
-            font-size: 1.5rem;
+            font-size: clamp(1rem, 3vw, 1.5rem);
             color: #555;
             font-weight: 500;
         }
 
-        @media (max-width: 768px) {
+        /* Extra small screens */
+        @media (max-width: 400px) {
+            body {
+                padding: 10px;
+            }
+            
             .time-container {
-                padding: 30px 20px;
-            }
-            
-            .title {
-                font-size: 2rem;
-            }
-            
-            .time-display {
-                gap: 10px;
-            }
-            
-            .time-unit {
-                min-width: 80px;
                 padding: 15px;
             }
             
-            .time-number {
-                font-size: 3rem;
+            .time-display {
+                gap: 5px;
             }
             
-            .colon {
-                font-size: 3rem;
-            }
-            
-            .date-display {
-                font-size: 1.2rem;
+            .time-unit {
+                min-width: 50px;
+                padding: 8px;
             }
         }
     </style>
