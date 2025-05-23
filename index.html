@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Time Widget</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 40px;
+            background: transparent;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .time-container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            body {
+                color: #e0e0e0;
+            }
+            
+            .time-container {
+                background: rgba(30, 30, 30, 0.95);
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .title {
+                color: #e0e0e0;
+            }
+            
+            .date-display {
+                color: #b0b0b0;
+            }
+            
+            .colon {
+                color: #e0e0e0;
+            }
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+
+        .time-display {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .time-unit {
+            background: #2c3e50;
+            border-radius: 15px;
+            padding: 20px;
+            min-width: 100px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .time-unit::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .time-number {
+            font-size: 4rem;
+            font-weight: bold;
+            color: white;
+            line-height: 1;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .colon {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #2c3e50;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .date-display {
+            font-size: 1.5rem;
+            color: #555;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .time-container {
+                padding: 30px 20px;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .time-display {
+                gap: 10px;
+            }
+            
+            .time-unit {
+                min-width: 80px;
+                padding: 15px;
+            }
+            
+            .time-number {
+                font-size: 3rem;
+            }
+            
+            .colon {
+                font-size: 3rem;
+            }
+            
+            .date-display {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="time-container">
+        <div class="title">Lisbon Local Time</div>
+        <div class="time-display">
+            <div class="time-unit">
+                <div class="time-number" id="hours">00</div>
+            </div>
+            <div class="colon">:</div>
+            <div class="time-unit">
+                <div class="time-number" id="minutes">00</div>
+            </div>
+            <div class="colon">:</div>
+            <div class="time-unit">
+                <div class="time-number" id="seconds">00</div>
+            </div>
+        </div>
+        <div class="date-display" id="date">Loading...</div>
+    </div>
+
+    <script>
+        function updateTime() {
+            // Create date object with Lisbon timezone
+            const now = new Date();
+            const lisbonTime = new Date(now.toLocaleString("en-US", {timeZone: "Europe/Lisbon"}));
+            
+            // Format time with leading zeros
+            const hours = String(lisbonTime.getHours()).padStart(2, '0');
+            const minutes = String(lisbonTime.getMinutes()).padStart(2, '0');
+            const seconds = String(lisbonTime.getSeconds()).padStart(2, '0');
+            
+            // Update time display
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+            
+            // Format date for Lisbon timezone
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                          'July', 'August', 'September', 'October', 'November', 'December'];
+            
+            const dayName = days[lisbonTime.getDay()];
+            const monthName = months[lisbonTime.getMonth()];
+            const date = lisbonTime.getDate();
+            const year = lisbonTime.getFullYear();
+            
+            document.getElementById('date').textContent = `${dayName} | ${monthName} ${date}, ${year}`;
+        }
+        
+        // Update immediately and then every second
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>
